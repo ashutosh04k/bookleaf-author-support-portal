@@ -13,13 +13,12 @@
       rel="stylesheet"
     />
 
-    <!-- Theme initialization script before DOM render to prevent white flash -->
+    <!-- Theme initialization script before DOM render to prevent white flash (Default: Light) -->
     <script>
       (function () {
         try {
           const stored = localStorage.getItem("theme");
-          const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-          const theme = stored ? stored : systemDark ? "dark" : "light";
+          const theme = stored === "dark" ? "dark" : "light";
           document.documentElement.setAttribute("data-theme", theme);
         } catch (e) {}
       })();
