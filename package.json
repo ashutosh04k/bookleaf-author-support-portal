@@ -1,0 +1,23 @@
+{
+  "name": "bookleaf-author-support-portal",
+  "version": "1.0.0",
+  "description": "BookLeaf Publishing: Author Support & Operations Desk Portal",
+  "private": true,
+  "scripts": {
+    "dev:server": "cd server && npm start",
+    "dev:client": "cd client && npm run dev",
+    "seed": "cd server && npm run seed",
+    "build": "cd client && npm run build",
+    "install:all": "cd server && npm install && cd ../client && npm install"
+  },
+  "keywords": [
+    "publishing",
+    "author-support",
+    "ticketing",
+    "ai-triage",
+    "react",
+    "node",
+    "mongodb",
+    "socket.io"
+  ]
+}

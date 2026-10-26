@@ -1,0 +1,724 @@
+{
+  "users": [
+    {
+      "id": "usr_admin_01",
+      "name": "Rohan Mehra",
+      "email": "admin@bookleaf.com",
+      "password": "password123",
+      "role": "admin",
+      "designation": "Senior Publishing Operations Lead"
+    },
+    {
+      "id": "usr_admin_02",
+      "name": "Aditi Roy",
+      "email": "ops@bookleaf.com",
+      "password": "password123",
+      "role": "admin",
+      "designation": "Author Success Specialist"
+    },
+    {
+      "id": "usr_auth_01",
+      "name": "Priya Sharma",
+      "email": "priya.sharma@example.com",
+      "password": "password123",
+      "role": "author",
+      "bankDetails": {
+        "accountHolder": "Priya Sharma",
+        "accountNumber": "918273645012",
+        "ifsc": "HDFC0001245",
+        "bankName": "HDFC Bank",
+        "verified": true
+      }
+    },
+    {
+      "id": "usr_auth_02",
+      "name": "Rajesh Verma",
+      "email": "rajesh.verma@example.com",
+      "password": "password123",
+      "role": "author",
+      "bankDetails": {
+        "accountHolder": "Rajesh Verma",
+        "accountNumber": "482019283741",
+        "ifsc": "ICIC0000492",
+        "bankName": "ICICI Bank",
+        "verified": true
+      }
+    },
+    {
+      "id": "usr_auth_03",
+      "name": "Ananya Sen",
+      "email": "ananya.sen@example.com",
+      "password": "password123",
+      "role": "author",
+      "bankDetails": {
+        "accountHolder": "Ananya Sen",
+        "accountNumber": "203948571623",
+        "ifsc": "SBIN0008392",
+        "bankName": "State Bank of India",
+        "verified": true
+      }
+    },
+    {
+      "id": "usr_auth_04",
+      "name": "Vikram Malhotra",
+      "email": "vikram.malhotra@example.com",
+      "password": "password123",
+      "role": "author",
+      "bankDetails": {
+        "accountHolder": "Vikram Malhotra",
+        "accountNumber": "551928374610",
+        "ifsc": "AXIS0002104",
+        "bankName": "Axis Bank",
+        "verified": true
+      }
+    },
+    {
+      "id": "usr_auth_05",
+      "name": "Sunita Rao",
+      "email": "sunita.rao@example.com",
+      "password": "password123",
+      "role": "author",
+      "bankDetails": {
+        "accountHolder": "Sunita Rao",
+        "accountNumber": "882736192034",
+        "ifsc": "KKBK0001928",
+        "bankName": "Kotak Mahindra Bank",
+        "verified": true
+      }
+    },
+    {
+      "id": "usr_auth_06",
+      "name": "Devendra Joshi",
+      "email": "devendra.joshi@example.com",
+      "password": "password123",
+      "role": "author",
+      "bankDetails": {
+        "accountHolder": "Devendra Joshi",
+        "accountNumber": "334918273645",
+        "ifsc": "PUNB0192834",
+        "bankName": "Punjab National Bank",
+        "verified": true
+      }
+    },
+    {
+      "id": "usr_auth_07",
+      "name": "Meera Nambiar",
+      "email": "meera.nambiar@example.com",
+      "password": "password123",
+      "role": "author",
+      "bankDetails": {
+        "accountHolder": "Meera Nambiar",
+        "accountNumber": "771829304152",
+        "ifsc": "BARB0CALICU",
+        "bankName": "Bank of Baroda",
+        "verified": true
+      }
+    },
+    {
+      "id": "usr_auth_08",
+      "name": "Karthik Subramanian",
+      "email": "karthik.sub@example.com",
+      "password": "password123",
+      "role": "author",
+      "bankDetails": {
+        "accountHolder": "Karthik Subramanian",
+        "accountNumber": "662918374019",
+        "ifsc": "IDIB000M128",
+        "bankName": "Indian Bank",
+        "verified": true
+      }
+    },
+    {
+      "id": "usr_auth_09",
+      "name": "Tanvi Chawla",
+      "email": "tanvi.chawla@example.com",
+      "password": "password123",
+      "role": "author",
+      "bankDetails": {
+        "accountHolder": "Tanvi Chawla",
+        "accountNumber": "119283746501",
+        "ifsc": "YESB0000492",
+        "bankName": "Yes Bank",
+        "verified": false
+      }
+    },
+    {
+      "id": "usr_auth_10",
+      "name": "Farhan Akhtar Qureshi",
+      "email": "farhan.qureshi@example.com",
+      "password": "password123",
+      "role": "author",
+      "bankDetails": {
+        "accountHolder": "Farhan A Qureshi",
+        "accountNumber": "449182736502",
+        "ifsc": "UBIN0532184",
+        "bankName": "Union Bank of India",
+        "verified": true
+      }
+    }
+  ],
+  "books": [
+    {
+      "id": "bk_001",
+      "title": "Echoes of the Malabar Coast",
+      "authorEmail": "priya.sharma@example.com",
+      "isbn": "978-93-94821-01-4",
+      "genre": "Historical Fiction",
+      "publicationDate": "2024-03-15",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 399,
+      "copiesSold": 640,
+      "royaltyEarned": 30720,
+      "royaltyPaid": 24000,
+      "royaltyPending": 6720,
+      "platforms": ["Amazon India", "Flipkart", "BookLeaf Store", "Amazon US"]
+    },
+    {
+      "id": "bk_002",
+      "title": "Monsoon Over Wayanad",
+      "authorEmail": "priya.sharma@example.com",
+      "isbn": "978-93-94821-02-1",
+      "genre": "Literary Fiction",
+      "publicationDate": "2024-08-10",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 349,
+      "copiesSold": 185,
+      "royaltyEarned": 7770,
+      "royaltyPaid": 7770,
+      "royaltyPending": 0,
+      "platforms": ["Amazon India", "Flipkart", "BookLeaf Store"]
+    },
+    {
+      "id": "bk_003",
+      "title": "The Silicon Alchemist",
+      "authorEmail": "rajesh.verma@example.com",
+      "isbn": "978-93-94821-03-8",
+      "genre": "Business & Technology",
+      "publicationDate": "2024-01-20",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 499,
+      "copiesSold": 820,
+      "royaltyEarned": 49200,
+      "royaltyPaid": 35000,
+      "royaltyPending": 14200,
+      "platforms": ["Amazon India", "Flipkart", "BookLeaf Store", "Amazon US", "Amazon UK"]
+    },
+    {
+      "id": "bk_004",
+      "title": "Zero to Founder",
+      "authorEmail": "rajesh.verma@example.com",
+      "isbn": "978-93-94821-04-5",
+      "genre": "Startups & Leadership",
+      "publicationDate": "2024-06-18",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 449,
+      "copiesSold": 310,
+      "royaltyEarned": 16740,
+      "royaltyPaid": 12000,
+      "royaltyPending": 4740,
+      "platforms": ["Amazon India", "Flipkart", "BookLeaf Store"]
+    },
+    {
+      "id": "bk_005",
+      "title": "Beneath the Banyan Shadow",
+      "authorEmail": "ananya.sen@example.com",
+      "isbn": "978-93-94821-05-2",
+      "genre": "Family Saga",
+      "publicationDate": "2024-04-05",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 375,
+      "copiesSold": 412,
+      "royaltyEarned": 18540,
+      "royaltyPaid": 15000,
+      "royaltyPending": 3540,
+      "platforms": ["Amazon India", "BookLeaf Store"]
+    },
+    {
+      "id": "bk_006",
+      "title": "The River Remembers",
+      "authorEmail": "ananya.sen@example.com",
+      "isbn": "978-93-94821-06-9",
+      "genre": "Contemporary Fiction",
+      "publicationDate": "2024-09-01",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 320,
+      "copiesSold": 45,
+      "royaltyEarned": 864,
+      "royaltyPaid": 0,
+      "royaltyPending": 864,
+      "platforms": ["Amazon India", "Flipkart", "BookLeaf Store"]
+    },
+    {
+      "id": "bk_007",
+      "title": "Delhi Dusk: Poems of Partition",
+      "authorEmail": "vikram.malhotra@example.com",
+      "isbn": "978-93-94821-07-6",
+      "genre": "Poetry",
+      "publicationDate": "2023-11-12",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 299,
+      "copiesSold": 530,
+      "royaltyEarned": 19080,
+      "royaltyPaid": 18000,
+      "royaltyPending": 1080,
+      "platforms": ["Amazon India", "Flipkart", "BookLeaf Store", "Amazon US"]
+    },
+    {
+      "id": "bk_008",
+      "title": "Voices from the Walled City",
+      "authorEmail": "vikram.malhotra@example.com",
+      "isbn": "978-93-94821-08-3",
+      "genre": "Non-Fiction History",
+      "publicationDate": "2024-07-22",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 550,
+      "copiesSold": 140,
+      "royaltyEarned": 9240,
+      "royaltyPaid": 0,
+      "royaltyPending": 9240,
+      "platforms": ["Amazon India", "Flipkart", "BookLeaf Store"]
+    },
+    {
+      "id": "bk_009",
+      "title": "Flavors of the Konkan",
+      "authorEmail": "sunita.rao@example.com",
+      "isbn": "978-93-94821-09-0",
+      "genre": "Culinary & Culture",
+      "publicationDate": "2024-02-28",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 699,
+      "copiesSold": 710,
+      "royaltyEarned": 59640,
+      "royaltyPaid": 48000,
+      "royaltyPending": 11640,
+      "platforms": ["Amazon India", "Flipkart", "BookLeaf Store", "Amazon US", "Amazon UK"]
+    },
+    {
+      "id": "bk_010",
+      "title": "Spices and Stories",
+      "authorEmail": "sunita.rao@example.com",
+      "isbn": "978-93-94821-10-6",
+      "genre": "Memoir",
+      "publicationDate": "2024-09-14",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 450,
+      "copiesSold": 18,
+      "royaltyEarned": 648,
+      "royaltyPaid": 0,
+      "royaltyPending": 648,
+      "platforms": ["Amazon India", "BookLeaf Store"]
+    },
+    {
+      "id": "bk_011",
+      "title": "The Himalayan Chronicler",
+      "authorEmail": "devendra.joshi@example.com",
+      "isbn": "978-93-94821-11-3",
+      "genre": "Travel & Exploration",
+      "publicationDate": null,
+      "status": "In Production",
+      "productionStage": "Typesetting",
+      "mrp": 425,
+      "copiesSold": 0,
+      "royaltyEarned": 0,
+      "royaltyPaid": 0,
+      "royaltyPending": 0,
+      "platforms": []
+    },
+    {
+      "id": "bk_012",
+      "title": "Passes of Garhwal",
+      "authorEmail": "devendra.joshi@example.com",
+      "isbn": "978-93-94821-12-0",
+      "genre": "Mountain Adventure",
+      "publicationDate": "2023-08-19",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 380,
+      "copiesSold": 290,
+      "royaltyEarned": 13224,
+      "royaltyPaid": 13224,
+      "royaltyPending": 0,
+      "platforms": ["Amazon India", "Flipkart", "BookLeaf Store"]
+    },
+    {
+      "id": "bk_013",
+      "title": "Whispering Monsoon",
+      "authorEmail": "meera.nambiar@example.com",
+      "isbn": "978-93-94821-13-7",
+      "genre": "Romance & Drama",
+      "publicationDate": "2024-05-10",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 299,
+      "copiesSold": 380,
+      "royaltyEarned": 13680,
+      "royaltyPaid": 10000,
+      "royaltyPending": 3680,
+      "platforms": ["Amazon India", "Flipkart", "BookLeaf Store"]
+    },
+    {
+      "id": "bk_014",
+      "title": "Sands of Dhanushkodi",
+      "authorEmail": "karthik.sub@example.com",
+      "isbn": "978-93-94821-14-4",
+      "genre": "Mythological Thriller",
+      "publicationDate": "2024-03-01",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 399,
+      "copiesSold": 940,
+      "royaltyEarned": 45120,
+      "royaltyPaid": 42000,
+      "royaltyPending": 3120,
+      "platforms": ["Amazon India", "Flipkart", "BookLeaf Store", "Amazon US"]
+    },
+    {
+      "id": "bk_015",
+      "title": "The Temple Code",
+      "authorEmail": "karthik.sub@example.com",
+      "isbn": "978-93-94821-15-1",
+      "genre": "Mystery Thriller",
+      "publicationDate": "2024-07-15",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 420,
+      "copiesSold": 410,
+      "royaltyEarned": 20664,
+      "royaltyPaid": 18000,
+      "royaltyPending": 2664,
+      "platforms": ["Amazon India", "Flipkart", "BookLeaf Store"]
+    },
+    {
+      "id": "bk_016",
+      "title": "Unraveling the Mindscape",
+      "authorEmail": "tanvi.chawla@example.com",
+      "isbn": "978-93-94821-16-8",
+      "genre": "Psychology & Self-Help",
+      "publicationDate": "2024-06-01",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 350,
+      "copiesSold": 210,
+      "royaltyEarned": 8820,
+      "royaltyPaid": 0,
+      "royaltyPending": 8820,
+      "platforms": ["Amazon India", "Flipkart", "BookLeaf Store"]
+    },
+    {
+      "id": "bk_017",
+      "title": "The Art of Listening Within",
+      "authorEmail": "tanvi.chawla@example.com",
+      "isbn": "978-93-94821-17-5",
+      "genre": "Mental Wellness",
+      "publicationDate": null,
+      "status": "In Production",
+      "productionStage": "Cover Design",
+      "mrp": 380,
+      "copiesSold": 0,
+      "royaltyEarned": 0,
+      "royaltyPaid": 0,
+      "royaltyPending": 0,
+      "platforms": []
+    },
+    {
+      "id": "bk_018",
+      "title": "Bridges Over the Bosphorus",
+      "authorEmail": "farhan.qureshi@example.com",
+      "isbn": "978-93-94821-18-2",
+      "genre": "Travel Memoir",
+      "publicationDate": "2024-02-14",
+      "status": "Published",
+      "productionStage": "Published & Live",
+      "mrp": 499,
+      "copiesSold": 340,
+      "royaltyEarned": 20400,
+      "royaltyPaid": 20400,
+      "royaltyPending": 0,
+      "platforms": ["Amazon India", "Flipkart", "BookLeaf Store", "Amazon UK"]
+    }
+  ],
+  "tickets": [
+    {
+      "ticketNumber": "BL-1001",
+      "authorEmail": "priya.sharma@example.com",
+      "bookTitle": "Echoes of the Malabar Coast",
+      "subject": "Haven't received royalty payout for the last 4 months",
+      "description": "Hello team, my book Echoes of the Malabar Coast has been selling well since March, but I have not received any royalty deposit in my bank account for over 4 months now. As per my dashboard, ₹6,720 is showing as pending. Could you please check when this will be credited?",
+      "category": "Royalty & Payments",
+      "priority": "Critical",
+      "status": "In Progress",
+      "assignedToEmail": "ops@bookleaf.com",
+      "createdAt": "2024-10-21T09:30:00Z",
+      "aiClassification": {
+        "suggestedCategory": "Royalty & Payments",
+        "suggestedPriority": "Critical",
+        "confidence": 0.96,
+        "reasoning": "Author is inquiring about overdue royalty exceeding 4 months with ₹6,720 pending payout."
+      },
+      "aiDraft": {
+        "content": "Dear Priya,\n\nThank you for reaching out to us, and congratulations on the steady readership for 'Echoes of the Malabar Coast'.\n\nI understand your concern regarding the pending royalty of ₹6,720. At BookLeaf, royalties are calculated on a quarterly cycle and disbursed within 45 days following the quarter's close. Since your pending balance exceeds our ₹1,000 minimum threshold, this payment is actively scheduled in our current payout cycle.\n\nI have verified your linked bank details (HDFC Bank ending in 5012) and escalated this to our finance desk to expedite the NEFT transfer within 48 hours. You will receive an email notification with the UTR number as soon as it clears.\n\nWarm regards,\nOperations Team, BookLeaf Publishing",
+        "relevantKbTopic": "Royalties",
+        "model": "gpt-4o-mini"
+      },
+      "messages": [
+        {
+          "senderEmail": "priya.sharma@example.com",
+          "role": "author",
+          "content": "Hello team, my book Echoes of the Malabar Coast has been selling well since March, but I have not received any royalty deposit in my bank account for over 4 months now. As per my dashboard, ₹6,720 is showing as pending. Could you please check when this will be credited?",
+          "createdAt": "2024-10-21T09:30:00Z"
+        },
+        {
+          "senderEmail": "ops@bookleaf.com",
+          "role": "admin",
+          "content": "Dear Priya, thank you for reaching out. I am currently coordinating with our finance accounts team to trace the Q2 batch run for your HDFC account. I will share the exact transaction reference within 24 hours.",
+          "createdAt": "2024-10-21T11:15:00Z"
+        }
+      ],
+      "internalNotes": [
+        {
+          "authorEmail": "ops@bookleaf.com",
+          "content": "Checked batch #Q2-IND-44. Payout file had a temporary IFSC routing flag. Resubmitted to ICICI corporate banking gateway on Oct 21.",
+          "createdAt": "2024-10-21T11:20:00Z"
+        }
+      ]
+    },
+    {
+      "ticketNumber": "BL-1002",
+      "authorEmail": "rajesh.verma@example.com",
+      "bookTitle": "The Silicon Alchemist",
+      "subject": "Royalty calculation seems lower than expected for Amazon sales",
+      "description": "Hi, I checked my Q2 sales report. 820 copies were sold at MRP ₹499. The royalty earned is showing as ₹49,200, which comes out to roughly ₹60 per book (12%). Shouldn't my royalty be 80%? Please clarify how this net amount is calculated.",
+      "category": "Royalty & Payments",
+      "priority": "Medium",
+      "status": "Open",
+      "assignedToEmail": null,
+      "createdAt": "2024-10-23T14:10:00Z",
+      "aiClassification": {
+        "suggestedCategory": "Royalty & Payments",
+        "suggestedPriority": "Medium",
+        "confidence": 0.94,
+        "reasoning": "Author is requesting clarification on royalty percentage formula and net profit breakdown."
+      },
+      "aiDraft": {
+        "content": "Dear Rajesh,\n\nThank you for reaching out, and congratulations on the tremendous success of 'The Silicon Alchemist' with 820 copies sold!\n\nI completely understand how the 80% split might seem confusing at first glance. Under BookLeaf's author agreement, the 80% royalty split applies to the net profit per book rather than the gross MRP. Net profit is calculated as:\n\nNet Profit = MRP (₹499) - Printing Cost (₹185) - Marketplace Commission & Delivery (approx. ₹239 for Amazon)\n\nThis leaves a net profit margin of approximately ₹75 per copy, of which 80% (₹60 per book) is credited directly to you. We believe in total transparency, and I would be delighted to provide you with a comprehensive line-by-line breakdown for every platform channel.\n\nPlease let me know if you would like me to generate that detailed ledger for your dashboard.\n\nWarm regards,\nAuthor Success Team, BookLeaf Publishing",
+        "relevantKbTopic": "Royalties",
+        "model": "gpt-4o-mini"
+      },
+      "messages": [
+        {
+          "senderEmail": "rajesh.verma@example.com",
+          "role": "author",
+          "content": "Hi, I checked my Q2 sales report. 820 copies were sold at MRP ₹499. The royalty earned is showing as ₹49,200, which comes out to roughly ₹60 per book (12%). Shouldn't my royalty be 80%? Please clarify how this net amount is calculated.",
+          "createdAt": "2024-10-23T14:10:00Z"
+        }
+      ],
+      "internalNotes": []
+    },
+    {
+      "ticketNumber": "BL-1003",
+      "authorEmail": "ananya.sen@example.com",
+      "bookTitle": "Beneath the Banyan Shadow",
+      "subject": "ISBN mismatch on Amazon listing - wrong page count and edition",
+      "description": "URGENT: Readers are reporting that on Amazon India, searching for my ISBN 978-93-94821-05-2 pulls up a different subtitle and an old 180-page draft instead of the final 260-page edition. This is impacting launch week sales. Please fix urgently.",
+      "category": "ISBN & Metadata Issues",
+      "priority": "Critical",
+      "status": "In Progress",
+      "assignedToEmail": "admin@bookleaf.com",
+      "createdAt": "2024-10-24T08:15:00Z",
+      "aiClassification": {
+        "suggestedCategory": "ISBN & Metadata Issues",
+        "suggestedPriority": "Critical",
+        "confidence": 0.98,
+        "reasoning": "ISBN metadata mismatch directly on live retailer listing during active sales period. High severity."
+      },
+      "aiDraft": {
+        "content": "Dear Ananya,\n\nThank you for alerting us immediately, and I sincerely apologize for the distress this metadata discrepancy has caused during your launch period.\n\nBecause ISBN integrity is paramount, I have escalated this as a high-priority ticket directly to our senior production and cataloging team. We have identified the feed discrepancy and are re-pushing the verified ONIX metadata file with the correct 260-page count and subtitle to Amazon India today.\n\nRetailer feeds take 24 to 48 hours to fully sync across regional nodes. I am personally monitoring this ticket and will confirm once the live page reflects the accurate specifications.\n\nWarm regards,\nPublishing Operations, BookLeaf Publishing",
+        "relevantKbTopic": "ISBN",
+        "model": "gpt-4o-mini"
+      },
+      "messages": [
+        {
+          "senderEmail": "ananya.sen@example.com",
+          "role": "author",
+          "content": "URGENT: Readers are reporting that on Amazon India, searching for my ISBN 978-93-94821-05-2 pulls up a different subtitle and an old 180-page draft instead of the final 260-page edition. This is impacting launch week sales. Please fix urgently.",
+          "createdAt": "2024-10-24T08:15:00Z"
+        }
+      ],
+      "internalNotes": [
+        {
+          "authorEmail": "admin@bookleaf.com",
+          "content": "Catalog team notified. ONIX XML version 3.0 re-submitted via Amazon Vendor Central ticket #IN-902184.",
+          "createdAt": "2024-10-24T09:00:00Z"
+        }
+      ]
+    },
+    {
+      "ticketNumber": "BL-1004",
+      "authorEmail": "vikram.malhotra@example.com",
+      "bookTitle": "Delhi Dusk: Poems of Partition",
+      "subject": "Author copies received with defective spine binding",
+      "description": "I received my batch of 10 author copies today from the Delhi warehouse. On 4 of the copies, the glue along the spine is cracking and the middle pages are loose. The cover matte finish is also scratched. This is disappointing print quality.",
+      "category": "Printing & Quality",
+      "priority": "High",
+      "status": "Open",
+      "assignedToEmail": null,
+      "createdAt": "2024-10-24T16:20:00Z",
+      "aiClassification": {
+        "suggestedCategory": "Printing & Quality",
+        "suggestedPriority": "High",
+        "confidence": 0.95,
+        "reasoning": "Author received defective print copies with spine binding issues and cover scratches from print partner."
+      },
+      "aiDraft": {
+        "content": "Dear Vikram,\n\nI am truly sorry to hear that your author copies of 'Delhi Dusk' arrived with binding defects and scratches. This falls well short of the standards we expect from our Delhi printing partners at Repro India.\n\nBookLeaf guarantees a free replacement reprint for any manufacturing or binding defect. To initiate the expedited replacement with our plant supervisor, could you please reply with 2-3 quick photos showing the cracked spine and defective covers?\n\nAs soon as we log the photos, we will initiate a fresh print run and dispatch replacement copies to your address within 5 to 7 business days at zero cost to you.\n\nWarm regards,\nQuality & Production Team, BookLeaf Publishing",
+        "relevantKbTopic": "Printing",
+        "model": "gpt-4o-mini"
+      },
+      "messages": [
+        {
+          "senderEmail": "vikram.malhotra@example.com",
+          "role": "author",
+          "content": "I received my batch of 10 author copies today from the Delhi warehouse. On 4 of the copies, the glue along the spine is cracking and the middle pages are loose. The cover matte finish is also scratched. This is disappointing print quality.",
+          "createdAt": "2024-10-24T16:20:00Z"
+        }
+      ],
+      "internalNotes": []
+    },
+    {
+      "ticketNumber": "BL-1005",
+      "authorEmail": "sunita.rao@example.com",
+      "bookTitle": "Flavors of the Konkan",
+      "subject": "Book showing 'Currently Unavailable' on Amazon India",
+      "description": "My culinary book 'Flavors of the Konkan' was featured in a weekend food blog today, but potential buyers are telling me that Amazon India is showing 'Currently Unavailable'. We are losing sales every hour. Can you please replenish stock?",
+      "category": "Distribution & Availability",
+      "priority": "High",
+      "status": "In Progress",
+      "assignedToEmail": "ops@bookleaf.com",
+      "createdAt": "2024-10-25T10:05:00Z",
+      "aiClassification": {
+        "suggestedCategory": "Distribution & Availability",
+        "suggestedPriority": "High",
+        "confidence": 0.92,
+        "reasoning": "High-demand book displaying unavailable on primary sales channel due to inventory sync delay."
+      },
+      "aiDraft": {
+        "content": "Dear Sunita,\n\nThank you for flagging this, and congratulations on the food blog feature! It is wonderful to see 'Flavors of the Konkan' gaining such traction.\n\nPlease rest assured that your book is not out of print. Under our Print-on-Demand distribution model, the 'Currently Unavailable' status on Amazon India typically indicates a stock sync lag between Amazon's automated ordering system and our Delhi warehouse inventory feed.\n\nOur distribution desk has just manually triggered an inventory re-sync with Amazon's marketplace operations. These re-sync updates reflect on the live product page within 24 to 48 hours. In the interim, copies are immediately available for order on the BookLeaf Store.\n\nI will monitor the Amazon product page and confirm back with you once the 'Buy Now' button is active again.\n\nWarm regards,\nDistribution Operations, BookLeaf Publishing",
+        "relevantKbTopic": "Distribution",
+        "model": "gpt-4o-mini"
+      },
+      "messages": [
+        {
+          "senderEmail": "sunita.rao@example.com",
+          "role": "author",
+          "content": "My culinary book 'Flavors of the Konkan' was featured in a weekend food blog today, but potential buyers are telling me that Amazon India is showing 'Currently Unavailable'. We are losing sales every hour. Can you please replenish stock?",
+          "createdAt": "2024-10-25T10:05:00Z"
+        }
+      ],
+      "internalNotes": [
+        {
+          "authorEmail": "ops@bookleaf.com",
+          "content": "Sent API re-sync ping to Amazon Seller central at 10:20 AM. Next warehouse batch pickup is at 4 PM.",
+          "createdAt": "2024-10-25T10:22:00Z"
+        }
+      ]
+    },
+    {
+      "ticketNumber": "BL-1006",
+      "authorEmail": "devendra.joshi@example.com",
+      "bookTitle": "The Himalayan Chronicler",
+      "subject": "Production status has been stuck on Typesetting for 3 weeks",
+      "description": "My manuscript 'The Himalayan Chronicler' was approved for typesetting on October 2nd. The dashboard still shows 'Typesetting' with no progress notes or draft preview. Could you provide a realistic timeline on when I will see the proof PDF?",
+      "category": "Book Status & Production Updates",
+      "priority": "Medium",
+      "status": "Open",
+      "assignedToEmail": null,
+      "createdAt": "2024-10-25T12:45:00Z",
+      "aiClassification": {
+        "suggestedCategory": "Book Status & Production Updates",
+        "suggestedPriority": "Medium",
+        "confidence": 0.95,
+        "reasoning": "Author inquiring on production milestone delay during typesetting stage."
+      },
+      "aiDraft": {
+        "content": "Dear Devendra,\n\nThank you for reaching out, and thank you for your patience as we prepare 'The Himalayan Chronicler' for publication.\n\nI checked directly with our typesetting team. Your manuscript contains custom mountain route maps and photographic inserts, which required special multi-column layout formatting to ensure high-resolution print reproduction. This extra care extended the typesetting process by a few days.\n\nThe typeset interior layout is now in final review. You will receive the comprehensive proof PDF via your author dashboard within 3 business days (by Wednesday). Once you review and approve the proof, we will proceed directly to ISBN assignment and test printing.\n\nThank you for working with us to make this book exceptional.\n\nWarm regards,\nProduction Team, BookLeaf Publishing",
+        "relevantKbTopic": "Production stages",
+        "model": "gpt-4o-mini"
+      },
+      "messages": [
+        {
+          "senderEmail": "devendra.joshi@example.com",
+          "role": "author",
+          "content": "My manuscript 'The Himalayan Chronicler' was approved for typesetting on October 2nd. The dashboard still shows 'Typesetting' with no progress notes or draft preview. Could you provide a realistic timeline on when I will see the proof PDF?",
+          "createdAt": "2024-10-25T12:45:00Z"
+        }
+      ],
+      "internalNotes": []
+    },
+    {
+      "ticketNumber": "BL-1007",
+      "authorEmail": "meera.nambiar@example.com",
+      "bookTitle": "Whispering Monsoon",
+      "subject": "Need to update book description and author bio on Amazon",
+      "description": "Hello, I won a regional literary honorable mention last week! I would like to update the Amazon blurb and my author bio on the Amazon and Flipkart product pages to highlight this recognition. Where can I submit the updated text?",
+      "category": "ISBN & Metadata Issues",
+      "priority": "Low",
+      "status": "Resolved",
+      "assignedToEmail": "ops@bookleaf.com",
+      "createdAt": "2024-10-18T11:00:00Z",
+      "aiClassification": {
+        "suggestedCategory": "ISBN & Metadata Issues",
+        "suggestedPriority": "Low",
+        "confidence": 0.91,
+        "reasoning": "Standard blurb and author bio metadata update on retail platforms."
+      },
+      "aiDraft": {
+        "content": "Dear Meera,\n\nCongratulations on the wonderful literary recognition! We are thrilled for you and proud to have 'Whispering Monsoon' in our catalog.\n\nYou can submit your revised blurb and updated author bio by replying directly to this ticket or uploading a text file in your author dashboard. Once we receive your revised text, our catalog team will submit the updated metadata to Amazon India and Flipkart.\n\nPlease note that retail platforms take 3 to 5 business days to index and reflect metadata revisions on live customer pages.\n\nWe look forward to receiving your new text!\n\nWarm regards,\nAuthor Success Team, BookLeaf Publishing",
+        "relevantKbTopic": "ISBN",
+        "model": "gpt-4o-mini"
+      },
+      "messages": [
+        {
+          "senderEmail": "meera.nambiar@example.com",
+          "role": "author",
+          "content": "Hello, I won a regional literary honorable mention last week! I would like to update the Amazon blurb and my author bio on the Amazon and Flipkart product pages to highlight this recognition. Where can I submit the updated text?",
+          "createdAt": "2024-10-18T11:00:00Z"
+        },
+        {
+          "senderEmail": "ops@bookleaf.com",
+          "role": "admin",
+          "content": "Dear Meera, congratulations on the award! Please reply with the new blurb text here and we will push it to Amazon and Flipkart right away.",
+          "createdAt": "2024-10-18T13:30:00Z"
+        },
+        {
+          "senderEmail": "meera.nambiar@example.com",
+          "role": "author",
+          "content": "Thank you! Here is the revised blurb: 'Winner of the 2024 Kerala Sahitya Parishad Commendation, Whispering Monsoon weaves an unforgettable tale...'",
+          "createdAt": "2024-10-18T14:15:00Z"
+        },
+        {
+          "senderEmail": "ops@bookleaf.com",
+          "role": "admin",
+          "content": "All updated on Amazon Vendor Central and Flipkart Seller portal! Changes are now live.",
+          "createdAt": "2024-10-19T10:00:00Z"
+        }
+      ],
+      "internalNotes": [
+        {
+          "authorEmail": "ops@bookleaf.com",
+          "content": "Updated blurb on Amazon feed. Verified live page on Oct 19.",
+          "createdAt": "2024-10-19T10:05:00Z"
+        }
+      ]
+    }
+  ]
+}
