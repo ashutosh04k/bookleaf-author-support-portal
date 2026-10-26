@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: bookleaf-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bookleaf-app
+    restart: always
+    ports:
+      - "5002:5002"
+    environment:
+      - PORT=5002
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/bookleaf_db
+      - JWT_SECRET=bookleaf_author_support_jwt_secret_production_ready_key_2024
+      # Optional: set OPENAI_API_KEY if desired
+      # - OPENAI_API_KEY=your_key_here
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo-data:

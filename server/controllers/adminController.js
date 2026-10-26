@@ -49,18 +49,25 @@ const getQueue = async (req, res, next) => {
     let sortOptions = { createdAt: 1 }; // Oldest first default for SLAs
     if (sortBy === "newest") {
       sortOptions = { createdAt: -1 };
-    } else if (sortBy === "priority") {
-      // Custom priority sort can be handled or indexed
-      sortOptions = { priority: 1, createdAt: 1 };
     } else if (sortBy === "oldest") {
       sortOptions = { createdAt: 1 };
     }
 
-    const tickets = await Ticket.find(filter)
+    let tickets = await Ticket.find(filter)
       .populate("author", "name email designation")
       .populate("book", "title isbn mrp copiesSold royaltyPending status productionStage")
       .populate("assignedTo", "name email")
       .sort(sortOptions);
+
+    if (sortBy === "priority") {
+      const priorityOrder = { Critical: 1, High: 2, Medium: 3, Low: 4 };
+      tickets = tickets.sort((a, b) => {
+        const orderA = priorityOrder[a.priority] || 99;
+        const orderB = priorityOrder[b.priority] || 99;
+        if (orderA !== orderB) return orderA - orderB;
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      });
+    }
 
     return res.status(200).json({
       success: true,
