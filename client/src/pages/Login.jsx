@@ -6,12 +6,13 @@ import { BookOpen, LogIn, AlertCircle, ArrowRight } from "lucide-react";
 const QUICK_LOGINS = [
   { role: "admin", label: "Admin: Rohan Mehra (Ops Lead)", email: "admin@bookleaf.com" },
   { role: "admin", label: "Admin: Aditi Roy (Success Specialist)", email: "ops@bookleaf.com" },
-  { role: "author", label: "Author: Priya Sharma (Critical Royalty)", email: "priya.sharma@example.com" },
-  { role: "author", label: "Author: Rajesh Verma (Royalty Formula)", email: "rajesh.verma@example.com" },
-  { role: "author", label: "Author: Ananya Sen (Critical ISBN Mismatch)", email: "ananya.sen@example.com" },
-  { role: "author", label: "Author: Vikram Malhotra (Print Defect)", email: "vikram.malhotra@example.com" },
-  { role: "author", label: "Author: Devendra Joshi (In Production)", email: "devendra.joshi@example.com" },
-  { role: "author", label: "Author: Karthik Subramanian (Empty State)", email: "karthik.sub@example.com" }
+  { role: "author", label: "Priya Sharma (AUTH001 - Overdue Royalty BL-1001)", email: "priya.sharma@email.com" },
+  { role: "author", label: "Rohit Kapoor (AUTH002 - Royalty Split BL-1002)", email: "rohit.kapoor@email.com" },
+  { role: "author", label: "Sneha Kulkarni (AUTH007 - Critical ISBN BL-1003)", email: "sneha.kulkarni@email.com" },
+  { role: "author", label: "Vikram Joshi (AUTH004 - Print Defect BL-1004)", email: "vikram.joshi@email.com" },
+  { role: "author", label: "Meera Nair (AUTH005 - Amazon Unavailable BL-1005)", email: "meera.nair@email.com" },
+  { role: "author", label: "Kavita Deshmukh (AUTH009 - In Production BL-1006)", email: "kavita.deshmukh@email.com" },
+  { role: "author", label: "Farhan Sheikh (AUTH008 - 0 Tickets Empty State)", email: "farhan.sheikh@email.com" }
 ];
 
 export function Login() {
@@ -130,7 +131,7 @@ export function Login() {
                 id="emailInput"
                 type="email"
                 className="form-input"
-                placeholder="author@example.com or admin@bookleaf.com"
+                placeholder="author@email.com or admin@bookleaf.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -169,7 +170,7 @@ export function Login() {
           {/* Quick 1-Click Evaluation Switcher */}
           <div style={{ marginTop: "24px", borderTop: "1px solid var(--border)", paddingTop: "18px" }}>
             <div style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "10px" }}>
-              1-Click Demo Personas (Reviewer Convenience)
+              1-Click Demo Personas (Official Sample Dataset)
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>

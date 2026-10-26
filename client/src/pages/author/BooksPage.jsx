@@ -52,7 +52,7 @@ export function BooksPage() {
         <div>
           <h1 className="serif-heading">Your books</h1>
           <p style={{ color: "var(--text-muted)", fontSize: "14px" }}>
-            Overview of your published catalog, production progress, and accrued royalties.
+            Overview of your published catalog, production milestones, and accrued royalties.
           </p>
         </div>
         <Link to="/author/raise-query" className="btn btn-accent">
@@ -82,7 +82,7 @@ export function BooksPage() {
 
         <div>
           <div style={{ fontSize: "12px", color: "var(--text-muted)", textTransform: "uppercase", fontWeight: 600 }}>
-            Royalty Earned (80%)
+            Royalty Earned
           </div>
           <div className="tabular-nums" style={{ fontSize: "1.45rem", fontWeight: 600, marginTop: "4px" }}>
             {formatINR(summary.totalRoyaltyEarned)}
@@ -135,6 +135,7 @@ export function BooksPage() {
                 <th>Genre</th>
                 <th>Status / Stage</th>
                 <th>MRP</th>
+                <th>Royalty / Copy</th>
                 <th>Copies Sold</th>
                 <th>Earned</th>
                 <th>Paid</th>
@@ -143,40 +144,58 @@ export function BooksPage() {
               </tr>
             </thead>
             <tbody>
-              {books.map((b) => (
-                <tr key={b._id}>
-                  <td>
-                    <div style={{ fontWeight: 600, color: "var(--text)" }}>{b.title}</div>
-                    <div className="isbn-font" style={{ color: "var(--text-muted)", marginTop: "2px" }}>
-                      {b.isbn}
-                    </div>
-                  </td>
-                  <td style={{ color: "var(--text-muted)" }}>{b.genre}</td>
-                  <td>
-                    {b.status === "Published" ? (
-                      <Badge type="resolved">Published & Live</Badge>
-                    ) : (
-                      <Badge type="in-progress">{b.productionStage || b.status}</Badge>
-                    )}
-                  </td>
-                  <td className="tabular-nums">{formatINR(b.mrp)}</td>
-                  <td className="tabular-nums font-semibold">{b.copiesSold.toLocaleString("en-IN")}</td>
-                  <td className="tabular-nums">{formatINR(b.royaltyEarned)}</td>
-                  <td className="tabular-nums" style={{ color: "var(--text-muted)" }}>{formatINR(b.royaltyPaid)}</td>
-                  <td className="tabular-nums font-semibold" style={{ color: b.royaltyPending > 0 ? "var(--primary)" : "inherit" }}>
-                    {formatINR(b.royaltyPending)}
-                  </td>
-                  <td>
-                    <Link
-                      to={`/author/raise-query?bookId=${b._id}`}
-                      className="btn btn-outline btn-sm"
-                      style={{ fontSize: "12px", padding: "4px 8px" }}
+              {books.map((b) => {
+                const isLive = (b.status || "").toLowerCase().includes("live");
+                return (
+                  <tr key={b._id}>
+                    <td>
+                      <div style={{ fontWeight: 600, color: "var(--text)" }}>{b.title}</div>
+                      <div className="isbn-font" style={{ color: "var(--text-muted)", marginTop: "2px" }}>
+                        {b.isbn}
+                      </div>
+                      {b.printPartner && b.printPartner !== "null" && (
+                        <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>
+                          Print Partner: {b.printPartner}
+                        </div>
+                      )}
+                    </td>
+                    <td style={{ color: "var(--text-muted)" }}>{b.genre}</td>
+                    <td>
+                      <Badge type={isLive ? "resolved" : "in-progress"}>
+                        {b.status}
+                      </Badge>
+                    </td>
+                    <td className="tabular-nums">
+                      {b.mrp ? formatINR(b.mrp) : <span style={{ color: "var(--text-muted)" }}>—</span>}
+                    </td>
+                    <td className="tabular-nums" style={{ color: "var(--text-muted)" }}>
+                      {b.authorRoyaltyPerCopy ? formatINR(b.authorRoyaltyPerCopy) : "—"}
+                    </td>
+                    <td className="tabular-nums font-semibold">
+                      {b.copiesSold ? b.copiesSold.toLocaleString("en-IN") : "0"}
+                    </td>
+                    <td className="tabular-nums">{formatINR(b.royaltyEarned)}</td>
+                    <td className="tabular-nums" style={{ color: "var(--text-muted)" }}>
+                      {formatINR(b.royaltyPaid)}
+                    </td>
+                    <td
+                      className="tabular-nums font-semibold"
+                      style={{ color: b.royaltyPending > 0 ? "var(--primary)" : "inherit" }}
                     >
-                      Raise Query
-                    </Link>
-                  </td>
-                </tr>
-              ))}
+                      {formatINR(b.royaltyPending)}
+                    </td>
+                    <td>
+                      <Link
+                        to={`/author/raise-query?bookId=${b._id}`}
+                        className="btn btn-outline btn-sm"
+                        style={{ fontSize: "12px", padding: "4px 8px" }}
+                      >
+                        Raise Query
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

@@ -7,7 +7,7 @@ const DEMO_ACCOUNTS = [
     role: "admin",
     name: "Rohan Mehra",
     email: "admin@bookleaf.com",
-    tag: "Senior Publishing Lead",
+    tag: "Senior Publishing Operations Lead",
     notes: "Full ops queue access, overrides, notes & replies"
   },
   {
@@ -19,59 +19,73 @@ const DEMO_ACCOUNTS = [
   },
   {
     role: "author",
-    name: "Priya Sharma",
-    email: "priya.sharma@example.com",
+    name: "Priya Sharma (AUTH001)",
+    email: "priya.sharma@email.com",
     tag: "Critical Royalty Query (BL-1001)",
-    notes: "Overdue royalty case for 'Echoes of the Malabar Coast'"
+    notes: "Overdue royalty case for 'Whispers of the Ganges' (₹3,570 pending)"
   },
   {
     role: "author",
-    name: "Rajesh Verma",
-    email: "rajesh.verma@example.com",
+    name: "Rohit Kapoor (AUTH002)",
+    email: "rohit.kapoor@email.com",
     tag: "Royalty Formula Query (BL-1002)",
-    notes: "Bestseller 'The Silicon Alchemist' (820 copies sold)"
+    notes: "'Code & Karma' (876 copies sold) & 'Startup Sutra' (1203 copies sold)"
   },
   {
     role: "author",
-    name: "Ananya Sen",
-    email: "ananya.sen@example.com",
+    name: "Sneha Kulkarni (AUTH007)",
+    email: "sneha.kulkarni@email.com",
     tag: "Critical ISBN Mismatch (BL-1003)",
-    notes: "Amazon retail feed discrepancy"
+    notes: "3 books including 'Midnight in Mysore' (In Production - Cover Design)"
   },
   {
     role: "author",
-    name: "Vikram Malhotra",
-    email: "vikram.malhotra@example.com",
+    name: "Vikram Joshi (AUTH004)",
+    email: "vikram.joshi@email.com",
     tag: "Print Defect Query (BL-1004)",
-    notes: "Spine glue & cover scratches on author copies"
+    notes: "Cracked spine binding on author copies of 'Debugging Life'"
   },
   {
     role: "author",
-    name: "Sunita Rao",
-    email: "sunita.rao@example.com",
+    name: "Meera Nair (AUTH005)",
+    email: "meera.nair@email.com",
     tag: "Availability Lag (BL-1005)",
-    notes: "'Currently Unavailable' on Amazon India"
+    notes: "'Cardamom & Chaos' currently unavailable on Amazon India"
   },
   {
     role: "author",
-    name: "Devendra Joshi",
-    email: "devendra.joshi@example.com",
-    tag: "Production Stage (BL-1006)",
-    notes: "Book currently in 'Typesetting' production stage"
+    name: "Kavita Deshmukh (AUTH009)",
+    email: "kavita.deshmukh@email.com",
+    tag: "In Production - Typesetting (BL-1006)",
+    notes: "'Raising Roots' (Typesetting) & 'The Nagpur Notebooks' (₹850 pending < ₹1,000 threshold)"
   },
   {
     role: "author",
-    name: "Karthik Subramanian",
-    email: "karthik.sub@example.com",
+    name: "Farhan Sheikh (AUTH008)",
+    email: "farhan.sheikh@email.com",
     tag: "Empty State Test Case",
-    notes: "Published author with 2 books and 0 tickets (empty state test)"
+    notes: "Published author with 1 book ('Ghazal of the Forgotten') and 0 tickets"
   },
   {
     role: "author",
-    name: "Meera Nambiar",
-    email: "meera.nambiar@example.com",
+    name: "Ananya Reddy (AUTH003)",
+    email: "ananya.reddy@email.com",
+    tag: "Pending First Payout",
+    notes: "'Between Two Temples' (67 copies sold, ₹2,546 pending)"
+  },
+  {
+    role: "author",
+    name: "Arjun Malhotra (AUTH006)",
+    email: "arjun.malhotra@email.com",
+    tag: "Pending Payout",
+    notes: "'Turban Tales' (88 copies sold, ₹2,464 pending)"
+  },
+  {
+    role: "author",
+    name: "Diya Chatterjee (AUTH010)",
+    email: "diya.chatterjee@email.com",
     tag: "Resolved Ticket (BL-1007)",
-    notes: "Amazon blurb & bio update completed"
+    notes: "Amazon blurb and bio update for 'Durga’s Daughters'"
   }
 ];
 
@@ -82,7 +96,6 @@ export function DemoSwitcherModal({ onClose }) {
     try {
       await login(account.email, "password123");
       onClose();
-      // Redirect depending on role
       if (account.role === "admin") {
         window.location.href = "/admin/queue";
       } else {
@@ -130,7 +143,7 @@ export function DemoSwitcherModal({ onClose }) {
           <div>
             <h3 style={{ margin: 0, fontSize: "1.1rem" }}>Evaluation Account Switcher</h3>
             <p style={{ margin: 0, fontSize: "12.5px", color: "var(--text-muted)" }}>
-              Switch instantly between pre-seeded test personas to evaluate author and admin portals.
+              Switch instantly between official BookLeaf personas to evaluate author and admin workflows.
             </p>
           </div>
           <button
@@ -180,7 +193,7 @@ export function DemoSwitcherModal({ onClose }) {
           })}
 
           <div style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: "12px" }}>
-            Author Accounts (Edge Cases & Personas)
+            Author Accounts (Official Sample Dataset)
           </div>
 
           {DEMO_ACCOUNTS.filter(a => a.role === "author").map(account => {

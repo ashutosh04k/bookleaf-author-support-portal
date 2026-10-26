@@ -150,22 +150,22 @@ If the LLM API is unavailable, unconfigured, or rate-limited:
 
 ## Pre-Seeded Accounts & Edge Cases
 
-The database seeds from `bookleaf_sample_data.json` containing **12 accounts** (2 admins, 10 authors) and **18 books**, explicitly covering all required edge cases:
+The database seeds from the official `bookleaf_sample_data.json` containing **12 accounts** (2 admins, 10 authors) and **18 books**, explicitly covering all required edge cases:
 
-| Account Name | Email | Role | Scenario & Edge Case Tested |
+| Author ID & Name | Email | Role | Scenario & Edge Case Tested |
 | :--- | :--- | :--- | :--- |
 | **Rohan Mehra** | `admin@bookleaf.com` | Admin | Senior Operations Lead (Full queue triage, status changes, overrides) |
 | **Aditi Roy** | `ops@bookleaf.com` | Admin | Author Success Specialist (Ticket resolution, internal notes) |
-| **Priya Sharma** | `priya.sharma@example.com` | Author | **Critical Royalty:** 4+ months overdue inquiry on `BL-1001`, ₹6,720 pending |
-| **Rajesh Verma** | `rajesh.verma@example.com` | Author | **Royalty Calculation:** 820 copies sold; queries 80% net split formula |
-| **Ananya Sen** | `ananya.sen@example.com` | Author | **Critical ISBN Mismatch:** Wrong subtitle & page count on live Amazon feed |
-| **Vikram Malhotra** | `vikram.malhotra@example.com` | Author | **Printing Defect:** Cracked spine binding & scratched covers on author copies |
-| **Sunita Rao** | `sunita.rao@example.com` | Author | **Distribution Availability:** "Currently Unavailable" stock sync lag on Amazon |
-| **Devendra Joshi** | `devendra.joshi@example.com` | Author | **In Production:** Book in *Typesetting* stage with ₹0 sales/royalty |
-| **Tanvi Chawla** | `tanvi.chawla@example.com` | Author | **Unverified Bank & In Production:** Book in *Cover Design* stage |
-| **Karthik Subramanian**| `karthik.sub@example.com` | Author | **Clean Empty State:** 2 published books, sales, but **0 tickets** |
-| **Meera Nambiar** | `meera.nambiar@example.com` | Author | **Resolved Ticket:** Amazon blurb and bio update completed (`BL-1007`) |
-| **Farhan Qureshi** | `farhan.qureshi@example.com`| Author | **Clean Published:** Earning royalties with zero pending balance |
+| **Priya Sharma (AUTH001)** | `priya.sharma@email.com` | Author | **Critical Royalty:** 4+ months overdue inquiry on `BL-1001`, ₹3,570 pending on *Whispers of the Ganges* (`BK001`) |
+| **Rohit Kapoor (AUTH002)** | `rohit.kapoor@email.com` | Author | **Royalty Calculation:** 876 copies sold on *Code & Karma* (`BK003`) & 1203 copies on *Startup Sutra* (`BK004`) |
+| **Ananya Reddy (AUTH003)** | `ananya.reddy@email.com` | Author | **Pending First Payout:** *Between Two Temples* (`BK005`), ₹2,546 pending, zero paid |
+| **Vikram Joshi (AUTH004)** | `vikram.joshi@email.com` | Author | **Printing Defect:** Cracked spine binding & cover scratches on *Debugging Life* (`BK006`) |
+| **Meera Nair (AUTH005)** | `meera.nair@email.com` | Author | **Distribution Availability:** "Currently Unavailable" stock sync lag on *Cardamom & Chaos* (`BK008`) |
+| **Arjun Malhotra (AUTH006)** | `arjun.malhotra@email.com`| Author | **Pending Payout:** *Turban Tales* (`BK010`), 88 copies sold, ₹2,464 pending |
+| **Sneha Kulkarni (AUTH007)**| `sneha.kulkarni@email.com`| Author | **Critical ISBN Mismatch & Production:** *The Algorithm of Love* (`BK011`) + *Midnight in Mysore* (`BK013` - Cover Design) |
+| **Farhan Sheikh (AUTH008)** | `farhan.sheikh@email.com` | Author | **Clean Empty State:** 1 published book (*Ghazal of the Forgotten*, `BK014`) and **0 tickets** |
+| **Kavita Deshmukh (AUTH009)**| `kavita.deshmukh@email.com`| Author | **Production & Below Threshold:** *Raising Roots* (`BK015` - Typesetting) & *The Nagpur Notebooks* (`BK016` - ₹850 pending < ₹1,000 threshold) |
+| **Diya Chatterjee (AUTH010)**| `diya.chatterjee@email.com`| Author | **Resolved Ticket:** Amazon blurb and bio update completed (`BL-1007`) for *Durga’s Daughters* (`BK017`) |
 
 > **Default Password:** `password123` for all seeded accounts.  
 > *A 1-click account switcher is accessible on the Login screen and in the top Header navigation for rapid reviewer evaluation.*

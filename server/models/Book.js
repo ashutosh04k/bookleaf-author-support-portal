@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const bookSchema = new mongoose.Schema(
   {
+    bookId: {
+      type: String,
+      trim: true,
+      default: ""
+    },
     title: {
       type: String,
       required: [true, "Book title is required"],
@@ -28,28 +33,19 @@ const bookSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Published", "In Production", "Under Review", "Archived"],
-      default: "In Production"
+      default: "Published & Live"
     },
     productionStage: {
       type: String,
-      enum: [
-        "Manuscript Received",
-        "Editing",
-        "Cover Design",
-        "Typesetting",
-        "Proofreading",
-        "ISBN Assignment",
-        "Printing",
-        "Distribution Setup",
-        "Published & Live"
-      ],
-      default: "Manuscript Received"
+      default: "Published & Live"
     },
     mrp: {
       type: Number,
-      required: true,
-      min: 0
+      default: 0
+    },
+    authorRoyaltyPerCopy: {
+      type: Number,
+      default: 0
     },
     copiesSold: {
       type: Number,
@@ -70,6 +66,14 @@ const bookSchema = new mongoose.Schema(
       type: Number,
       default: 0,
       min: 0
+    },
+    lastRoyaltyPayoutDate: {
+      type: Date,
+      default: null
+    },
+    printPartner: {
+      type: String,
+      default: "In-House"
     },
     platforms: [
       {

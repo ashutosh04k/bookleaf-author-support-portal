@@ -28,6 +28,25 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "Author"
     },
+    authorId: {
+      type: String,
+      default: null,
+      trim: true
+    },
+    phone: {
+      type: String,
+      default: "",
+      trim: true
+    },
+    city: {
+      type: String,
+      default: "",
+      trim: true
+    },
+    joinedDate: {
+      type: Date,
+      default: null
+    },
     bankDetails: {
       accountHolder: { type: String, default: "" },
       accountNumber: { type: String, default: "" },
