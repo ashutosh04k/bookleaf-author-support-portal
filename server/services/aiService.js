@@ -317,6 +317,8 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
   if (process.env.ANTHROPIC_API_KEY) {
     try {
       const model = process.env.ANTHROPIC_MODEL || "claude-3-haiku-20240307";
+      console.log(`[AI Service] 🚀 Calling Anthropic API (${model}) for ticket triage...`);
+      const startTime = Date.now();
       const response = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: {
@@ -343,6 +345,8 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
       const validCategory = CATEGORIES.includes(parsed.category) ? parsed.category : "General Inquiry";
       const validPriority = PRIORITIES.includes(parsed.priority) ? parsed.priority : "Medium";
 
+      console.log(`[AI Service] ✅ Anthropic responded in ${Date.now() - startTime}ms: Category="${validCategory}", Priority="${validPriority}"`);
+
       return {
         suggestedCategory: validCategory,
         suggestedPriority: validPriority,
@@ -351,7 +355,7 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
         model
       };
     } catch (err) {
-      console.warn("[AI Service - Anthropic] Classification fallback triggered:", err.message);
+      console.warn("[AI Service - Anthropic] ⚠️ Classification fallback triggered:", err.message);
     }
   }
 
@@ -359,6 +363,8 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
   if (process.env.OPENAI_API_KEY) {
     try {
       const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+      console.log(`[AI Service] 🚀 Calling OpenAI API (${model}) for ticket triage...`);
+      const startTime = Date.now();
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -386,6 +392,8 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
       const validCategory = CATEGORIES.includes(parsed.category) ? parsed.category : "General Inquiry";
       const validPriority = PRIORITIES.includes(parsed.priority) ? parsed.priority : "Medium";
 
+      console.log(`[AI Service] ✅ OpenAI responded in ${Date.now() - startTime}ms: Category="${validCategory}", Priority="${validPriority}"`);
+
       return {
         suggestedCategory: validCategory,
         suggestedPriority: validPriority,
@@ -394,7 +402,7 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
         model
       };
     } catch (err) {
-      console.warn("[AI Service - OpenAI] Classification fallback triggered:", err.message);
+      console.warn("[AI Service - OpenAI] ⚠️ Classification fallback triggered:", err.message);
     }
   }
 
@@ -466,6 +474,8 @@ Draft an official response letter to the author. Do not include subject lines or
   if (process.env.ANTHROPIC_API_KEY) {
     try {
       const model = process.env.ANTHROPIC_MODEL || "claude-3-haiku-20240307";
+      console.log(`[AI Service] 🚀 Calling Anthropic API (${model}) to generate response draft...`);
+      const startTime = Date.now();
       const response = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: {
@@ -488,6 +498,7 @@ Draft an official response letter to the author. Do not include subject lines or
       }
 
       const data = await response.json();
+      console.log(`[AI Service] ✅ Anthropic generated draft in ${Date.now() - startTime}ms`);
       return {
         content: data.content[0].text.trim(),
         relevantKbTopic: category,
@@ -495,7 +506,7 @@ Draft an official response letter to the author. Do not include subject lines or
         generatedAt: new Date()
       };
     } catch (err) {
-      console.warn("[AI Service - Anthropic] Draft generation fallback triggered:", err.message);
+      console.warn("[AI Service - Anthropic] ⚠️ Draft generation fallback triggered:", err.message);
     }
   }
 
@@ -503,6 +514,8 @@ Draft an official response letter to the author. Do not include subject lines or
   if (process.env.OPENAI_API_KEY) {
     try {
       const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
+      console.log(`[AI Service] 🚀 Calling OpenAI API (${model}) to generate response draft...`);
+      const startTime = Date.now();
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -524,6 +537,7 @@ Draft an official response letter to the author. Do not include subject lines or
       }
 
       const data = await response.json();
+      console.log(`[AI Service] ✅ OpenAI generated draft in ${Date.now() - startTime}ms`);
       return {
         content: data.choices[0].message.content.trim(),
         relevantKbTopic: category,
@@ -531,7 +545,7 @@ Draft an official response letter to the author. Do not include subject lines or
         generatedAt: new Date()
       };
     } catch (err) {
-      console.warn("[AI Service - OpenAI] Draft generation fallback triggered:", err.message);
+      console.warn("[AI Service - OpenAI] ⚠️ Draft generation fallback triggered:", err.message);
     }
   }
 
