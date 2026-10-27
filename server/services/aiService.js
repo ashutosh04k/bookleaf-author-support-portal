@@ -316,7 +316,7 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
   // 1. Groq API (100% Free at console.groq.com - No Credit Card Needed)
   if (process.env.GROQ_API_KEY) {
     try {
-      const model = process.env.GROQ_MODEL || "llama-3.1-8b-instant";
+      const model = process.env.GROQ_MODEL || "openai/gpt-oss-20b";
       console.log(`[AI Service] 🚀 Calling Free Groq API (${model}) for ticket triage...`);
       const startTime = Date.now();
       const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -560,7 +560,7 @@ Draft an official response letter to the author. Do not include subject lines or
   // 1. Groq API (100% Free at console.groq.com)
   if (process.env.GROQ_API_KEY) {
     try {
-      const model = process.env.GROQ_MODEL || "llama-3.1-8b-instant";
+      const model = process.env.GROQ_MODEL || "openai/gpt-oss-20b";
       console.log(`[AI Service] 🚀 Calling Free Groq API (${model}) to generate response draft...`);
       const startTime = Date.now();
       const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {

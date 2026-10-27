@@ -1,9 +1,3 @@
-/**
- * BookLeaf Publishing - Knowledge Base
- * 
- * Fed to the AI service with category-targeted slicing to optimize
- * context window and token costs.
- */
 
 const KNOWLEDGE_BASE = {
   company: {
