@@ -140,11 +140,11 @@ If the LLM API is unavailable, unconfigured, or rate-limited:
 - Admins can edit the draft or click **Regenerate** at any time.
 
 ### 5. API Key Security & Model Choice Justification
-- **Security:** Keys (`OPENAI_API_KEY`) reside exclusively in server-side environment variables and are never bundled, transmitted, or logged to the client.
-- **Model Choice (`gpt-4o-mini`):**
-  - High reasoning accuracy for structured JSON triage.
-  - 10x lower cost than flagship models, satisfying the operational cost requirement for 1,200+ monthly titles.
-  - Sub-second latency for author ticket submission flows.
+- **Security:** Keys (`ANTHROPIC_API_KEY` or `OPENAI_API_KEY`) reside exclusively in server-side environment variables and are never bundled, transmitted, or logged to the client.
+- **Model Choice Justification:**
+  - **Anthropic (`claude-3-haiku-20240307`):** Outstanding adherence to editorial tone rules, nuanced empathetic drafting, and extremely low cost ($0.25 / 1M input tokens) which makes it ideal for handling 1,200+ monthly book queries at scale.
+  - **OpenAI (`gpt-4o-mini`):** High reasoning accuracy for deterministic JSON triage, low cost ($0.15 / 1M input tokens), and sub-second latency for author ticket submission flows.
+  - Both providers are fully plug-and-play supported with identical targeted knowledge base slicing and tone enforcement.
 
 ---
 

@@ -274,10 +274,10 @@ Author Care Team, BookLeaf Publishing`;
  * Meets requirement: "do classification and priority in a single call"
  */
 async function classifyAndPrioritizeTicket({ subject, description, bookTitle, authorName }) {
-  const apiKey = process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY;
+  const hasKey = process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY;
 
   // If no external key is configured, immediately use the robust local heuristic engine
-  if (!apiKey) {
+  if (!hasKey) {
     const localResult = localRuleClassifier(subject, description);
     return {
       suggestedCategory: localResult.category,
@@ -288,9 +288,7 @@ async function classifyAndPrioritizeTicket({ subject, description, bookTitle, au
     };
   }
 
-  // Attempt LLM invocation (OpenAI format or compatible endpoint)
-  try {
-    const prompt = `You are the lead AI triage agent at BookLeaf Publishing, an established self-publishing house in India & the US.
+  const prompt = `You are the lead AI triage agent at BookLeaf Publishing, an established self-publishing house in India & the US.
 Analyze the following author support ticket and return a JSON object with:
 1. "category": EXACTLY one of:
    - "Royalty & Payments"
@@ -315,7 +313,52 @@ Query: ${description}
 
 Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
 
-    if (process.env.OPENAI_API_KEY) {
+  // 1. Anthropic Claude API Call
+  if (process.env.ANTHROPIC_API_KEY) {
+    try {
+      const model = process.env.ANTHROPIC_MODEL || "claude-3-haiku-20240307";
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.ANTHROPIC_API_KEY,
+          "anthropic-version": "2023-06-01"
+        },
+        body: JSON.stringify({
+          model,
+          max_tokens: 512,
+          system: "You are an accurate, deterministic JSON-only classification assistant. Respond with strictly valid JSON only.",
+          messages: [{ role: "user", content: prompt }]
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Anthropic HTTP ${response.status}: ${await response.text()}`);
+      }
+
+      const data = await response.json();
+      const rawText = data.content[0].text.replace(/```json/g, "").replace(/```/g, "").trim();
+      const parsed = JSON.parse(rawText);
+
+      const validCategory = CATEGORIES.includes(parsed.category) ? parsed.category : "General Inquiry";
+      const validPriority = PRIORITIES.includes(parsed.priority) ? parsed.priority : "Medium";
+
+      return {
+        suggestedCategory: validCategory,
+        suggestedPriority: validPriority,
+        confidence: typeof parsed.confidence === "number" ? parsed.confidence : 0.95,
+        reasoning: parsed.reasoning || `Classified via ${model}`,
+        model
+      };
+    } catch (err) {
+      console.warn("[AI Service - Anthropic] Classification fallback triggered:", err.message);
+    }
+  }
+
+  // 2. OpenAI API Call
+  if (process.env.OPENAI_API_KEY) {
+    try {
+      const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -323,7 +366,7 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
           Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
         },
         body: JSON.stringify({
-          model: process.env.OPENAI_MODEL || "gpt-4o-mini",
+          model,
           messages: [
             { role: "system", content: "You are an accurate, deterministic JSON-only classification assistant." },
             { role: "user", content: prompt }
@@ -340,7 +383,6 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
       const data = await response.json();
       const parsed = JSON.parse(data.choices[0].message.content);
 
-      // Validate category and priority
       const validCategory = CATEGORIES.includes(parsed.category) ? parsed.category : "General Inquiry";
       const validPriority = PRIORITIES.includes(parsed.priority) ? parsed.priority : "Medium";
 
@@ -348,15 +390,15 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
         suggestedCategory: validCategory,
         suggestedPriority: validPriority,
         confidence: typeof parsed.confidence === "number" ? parsed.confidence : 0.95,
-        reasoning: parsed.reasoning || "Classified via gpt-4o-mini",
-        model: process.env.OPENAI_MODEL || "gpt-4o-mini"
+        reasoning: parsed.reasoning || `Classified via ${model}`,
+        model
       };
+    } catch (err) {
+      console.warn("[AI Service - OpenAI] Classification fallback triggered:", err.message);
     }
-  } catch (err) {
-    console.warn("[AI Service] Fallback triggered for classification:", err.message);
   }
 
-  // Graceful degradation fallback
+  // 3. Graceful Degradation Fallback
   const fallback = localRuleClassifier(subject, description);
   return {
     suggestedCategory: fallback.category,
@@ -372,7 +414,7 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
  * Slices only the relevant KB topic to save tokens and costs.
  */
 async function generateDraftResponse({ ticket, author, book }) {
-  const apiKey = process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY;
+  const hasKey = process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY;
   const category = ticket.category || "General Inquiry";
   const kbSection = getRelevantKnowledgeBase(category, `${ticket.subject} ${ticket.description}`);
 
@@ -380,7 +422,7 @@ async function generateDraftResponse({ ticket, author, book }) {
   const bookTitle = book ? book.title : null;
 
   // If no external key or in fallback mode
-  if (!apiKey) {
+  if (!hasKey) {
     const draftText = localRuleDraftGenerator({
       authorName,
       bookTitle,
@@ -398,8 +440,7 @@ async function generateDraftResponse({ ticket, author, book }) {
     };
   }
 
-  try {
-    const systemInstruction = `You are a dedicated author support specialist at BookLeaf Publishing.
+  const systemInstruction = `You are a dedicated author support specialist at BookLeaf Publishing.
 Tone rules to obey strictly:
 1. Be empathetic, warm, and professional; treat authors as valued partners.
 2. Acknowledge the author's concern first before presenting the solution.
@@ -421,7 +462,47 @@ Author Context:
 
 Draft an official response letter to the author. Do not include subject lines or placeholders like [Insert Date]. Fill in all details cleanly.`;
 
-    if (process.env.OPENAI_API_KEY) {
+  // 1. Anthropic Claude API Call
+  if (process.env.ANTHROPIC_API_KEY) {
+    try {
+      const model = process.env.ANTHROPIC_MODEL || "claude-3-haiku-20240307";
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": process.env.ANTHROPIC_API_KEY,
+          "anthropic-version": "2023-06-01"
+        },
+        body: JSON.stringify({
+          model,
+          max_tokens: 1024,
+          system: systemInstruction,
+          messages: [
+            { role: "user", content: `Subject: ${ticket.subject}\n\nDescription: ${ticket.description}` }
+          ]
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Anthropic HTTP ${response.status}: ${await response.text()}`);
+      }
+
+      const data = await response.json();
+      return {
+        content: data.content[0].text.trim(),
+        relevantKbTopic: category,
+        model,
+        generatedAt: new Date()
+      };
+    } catch (err) {
+      console.warn("[AI Service - Anthropic] Draft generation fallback triggered:", err.message);
+    }
+  }
+
+  // 2. OpenAI API Call
+  if (process.env.OPENAI_API_KEY) {
+    try {
+      const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -429,7 +510,7 @@ Draft an official response letter to the author. Do not include subject lines or
           Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
         },
         body: JSON.stringify({
-          model: process.env.OPENAI_MODEL || "gpt-4o-mini",
+          model,
           messages: [
             { role: "system", content: systemInstruction },
             { role: "user", content: `Subject: ${ticket.subject}\n\nDescription: ${ticket.description}` }
@@ -446,12 +527,12 @@ Draft an official response letter to the author. Do not include subject lines or
       return {
         content: data.choices[0].message.content.trim(),
         relevantKbTopic: category,
-        model: process.env.OPENAI_MODEL || "gpt-4o-mini",
+        model,
         generatedAt: new Date()
       };
+    } catch (err) {
+      console.warn("[AI Service - OpenAI] Draft generation fallback triggered:", err.message);
     }
-  } catch (err) {
-    console.warn("[AI Service] Fallback triggered for draft generation:", err.message);
   }
 
   // Graceful degradation fallback
