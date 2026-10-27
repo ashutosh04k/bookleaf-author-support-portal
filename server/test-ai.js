@@ -10,10 +10,22 @@ async function runTest() {
   console.log(" 🔍 BookLeaf AI API Connectivity & Triage Test");
   console.log("==================================================");
 
+  const hasGroq = !!process.env.GROQ_API_KEY;
+  const hasGemini = !!process.env.GEMINI_API_KEY;
   const hasAnthropic = !!process.env.ANTHROPIC_API_KEY;
   const hasOpenAI = !!process.env.OPENAI_API_KEY;
 
-  if (hasAnthropic) {
+  if (hasGroq) {
+    const keyPreview = process.env.GROQ_API_KEY.slice(0, 8) + "..." + process.env.GROQ_API_KEY.slice(-4);
+    console.log(`[Config] Provider: Groq (100% Free Tier, No Card)`);
+    console.log(`[Config] Model:    ${process.env.GROQ_MODEL || "llama-3.1-8b-instant"}`);
+    console.log(`[Config] Key:      ${keyPreview}`);
+  } else if (hasGemini) {
+    const keyPreview = process.env.GEMINI_API_KEY.slice(0, 8) + "..." + process.env.GEMINI_API_KEY.slice(-4);
+    console.log(`[Config] Provider: Google Gemini (100% Free Tier, No Card)`);
+    console.log(`[Config] Model:    ${process.env.GEMINI_MODEL || "gemini-1.5-flash"}`);
+    console.log(`[Config] Key:      ${keyPreview}`);
+  } else if (hasAnthropic) {
     const keyPreview = process.env.ANTHROPIC_API_KEY.slice(0, 10) + "..." + process.env.ANTHROPIC_API_KEY.slice(-4);
     console.log(`[Config] Provider: Anthropic Claude`);
     console.log(`[Config] Model:    ${process.env.ANTHROPIC_MODEL || "claude-3-haiku-20240307"}`);

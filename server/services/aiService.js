@@ -274,7 +274,7 @@ Author Care Team, BookLeaf Publishing`;
  * Meets requirement: "do classification and priority in a single call"
  */
 async function classifyAndPrioritizeTicket({ subject, description, bookTitle, authorName }) {
-  const hasKey = process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY;
+  const hasKey = process.env.GROQ_API_KEY || process.env.GEMINI_API_KEY || process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY;
 
   // If no external key is configured, immediately use the robust local heuristic engine
   if (!hasKey) {
@@ -313,7 +313,94 @@ Query: ${description}
 
 Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
 
-  // 1. Anthropic Claude API Call
+  // 1. Groq API (100% Free at console.groq.com - No Credit Card Needed)
+  if (process.env.GROQ_API_KEY) {
+    try {
+      const model = process.env.GROQ_MODEL || "llama-3.1-8b-instant";
+      console.log(`[AI Service] 🚀 Calling Free Groq API (${model}) for ticket triage...`);
+      const startTime = Date.now();
+      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.GROQ_API_KEY}`
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            { role: "system", content: "You are an accurate, deterministic JSON-only classification assistant. Respond with strictly valid JSON only." },
+            { role: "user", content: prompt }
+          ],
+          temperature: 0.1,
+          response_format: { type: "json_object" }
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Groq HTTP ${response.status}: ${await response.text()}`);
+      }
+
+      const data = await response.json();
+      const parsed = JSON.parse(data.choices[0].message.content);
+
+      const validCategory = CATEGORIES.includes(parsed.category) ? parsed.category : "General Inquiry";
+      const validPriority = PRIORITIES.includes(parsed.priority) ? parsed.priority : "Medium";
+
+      console.log(`[AI Service] ✅ Groq responded in ${Date.now() - startTime}ms: Category="${validCategory}", Priority="${validPriority}"`);
+
+      return {
+        suggestedCategory: validCategory,
+        suggestedPriority: validPriority,
+        confidence: typeof parsed.confidence === "number" ? parsed.confidence : 0.95,
+        reasoning: parsed.reasoning || `Classified via ${model} (Groq Free)`,
+        model: `${model} (Groq Free)`
+      };
+    } catch (err) {
+      console.warn("[AI Service - Groq] ⚠️ Classification fallback triggered:", err.message);
+    }
+  }
+
+  // 2. Google Gemini API (100% Free at aistudio.google.com - No Credit Card Needed)
+  if (process.env.GEMINI_API_KEY) {
+    try {
+      const model = process.env.GEMINI_MODEL || "gemini-1.5-flash";
+      console.log(`[AI Service] 🚀 Calling Free Gemini API (${model}) for ticket triage...`);
+      const startTime = Date.now();
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { responseMimeType: "application/json" }
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Gemini HTTP ${response.status}: ${await response.text()}`);
+      }
+
+      const data = await response.json();
+      const rawText = data.candidates[0].content.parts[0].text;
+      const parsed = JSON.parse(rawText);
+
+      const validCategory = CATEGORIES.includes(parsed.category) ? parsed.category : "General Inquiry";
+      const validPriority = PRIORITIES.includes(parsed.priority) ? parsed.priority : "Medium";
+
+      console.log(`[AI Service] ✅ Gemini responded in ${Date.now() - startTime}ms: Category="${validCategory}", Priority="${validPriority}"`);
+
+      return {
+        suggestedCategory: validCategory,
+        suggestedPriority: validPriority,
+        confidence: typeof parsed.confidence === "number" ? parsed.confidence : 0.95,
+        reasoning: parsed.reasoning || `Classified via ${model} (Gemini Free)`,
+        model: `${model} (Gemini Free)`
+      };
+    } catch (err) {
+      console.warn("[AI Service - Gemini] ⚠️ Classification fallback triggered:", err.message);
+    }
+  }
+
+  // 3. Anthropic Claude API Call
   if (process.env.ANTHROPIC_API_KEY) {
     try {
       const model = process.env.ANTHROPIC_MODEL || "claude-3-haiku-20240307";
@@ -359,7 +446,7 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
     }
   }
 
-  // 2. OpenAI API Call
+  // 4. OpenAI API Call
   if (process.env.OPENAI_API_KEY) {
     try {
       const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
@@ -406,7 +493,7 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
     }
   }
 
-  // 3. Graceful Degradation Fallback
+  // 5. Graceful Degradation Fallback
   const fallback = localRuleClassifier(subject, description);
   return {
     suggestedCategory: fallback.category,
@@ -422,7 +509,7 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
  * Slices only the relevant KB topic to save tokens and costs.
  */
 async function generateDraftResponse({ ticket, author, book }) {
-  const hasKey = process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY;
+  const hasKey = process.env.GROQ_API_KEY || process.env.GEMINI_API_KEY || process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY;
   const category = ticket.category || "General Inquiry";
   const kbSection = getRelevantKnowledgeBase(category, `${ticket.subject} ${ticket.description}`);
 
@@ -469,6 +556,78 @@ Author Context:
 - Bank Verified: ${author?.bankDetails?.verified ? "Yes (" + author.bankDetails.bankName + ")" : "No"}
 
 Draft an official response letter to the author. Do not include subject lines or placeholders like [Insert Date]. Fill in all details cleanly.`;
+
+  // 1. Groq API (100% Free at console.groq.com)
+  if (process.env.GROQ_API_KEY) {
+    try {
+      const model = process.env.GROQ_MODEL || "llama-3.1-8b-instant";
+      console.log(`[AI Service] 🚀 Calling Free Groq API (${model}) to generate response draft...`);
+      const startTime = Date.now();
+      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.GROQ_API_KEY}`
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            { role: "system", content: systemInstruction },
+            { role: "user", content: `Subject: ${ticket.subject}\n\nDescription: ${ticket.description}` }
+          ],
+          temperature: 0.3
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Groq HTTP ${response.status}: ${await response.text()}`);
+      }
+
+      const data = await response.json();
+      console.log(`[AI Service] ✅ Groq generated draft in ${Date.now() - startTime}ms`);
+      return {
+        content: data.choices[0].message.content.trim(),
+        relevantKbTopic: category,
+        model: `${model} (Groq Free)`,
+        generatedAt: new Date()
+      };
+    } catch (err) {
+      console.warn("[AI Service - Groq] ⚠️ Draft generation fallback triggered:", err.message);
+    }
+  }
+
+  // 2. Google Gemini API (100% Free at aistudio.google.com)
+  if (process.env.GEMINI_API_KEY) {
+    try {
+      const model = process.env.GEMINI_MODEL || "gemini-1.5-flash";
+      console.log(`[AI Service] 🚀 Calling Free Gemini API (${model}) to generate response draft...`);
+      const startTime = Date.now();
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          systemInstruction: { parts: [{ text: systemInstruction }] },
+          contents: [{ parts: [{ text: `Subject: ${ticket.subject}\n\nDescription: ${ticket.description}` }] }]
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Gemini HTTP ${response.status}: ${await response.text()}`);
+      }
+
+      const data = await response.json();
+      const draftContent = data.candidates[0].content.parts[0].text.trim();
+      console.log(`[AI Service] ✅ Gemini generated draft in ${Date.now() - startTime}ms`);
+      return {
+        content: draftContent,
+        relevantKbTopic: category,
+        model: `${model} (Gemini Free)`,
+        generatedAt: new Date()
+      };
+    } catch (err) {
+      console.warn("[AI Service - Gemini] ⚠️ Draft generation fallback triggered:", err.message);
+    }
+  }
 
   // 1. Anthropic Claude API Call
   if (process.env.ANTHROPIC_API_KEY) {
