@@ -37,7 +37,7 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           {/* Quick Demo Account Switcher Button */}
-          <button
+          {/* <button
             onClick={() => setShowDemoModal(true)}
             className="btn btn-outline btn-sm"
             title="Switch demo account (Admins & Authors)"
@@ -45,7 +45,7 @@ export function Header() {
           >
             <Users size={14} />
             <span>Switch Role / Author</span>
-          </button>
+          </button> */}
 
           {/* Theme Toggle Button */}
           <button
