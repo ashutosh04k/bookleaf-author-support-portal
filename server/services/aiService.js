@@ -12,10 +12,8 @@ const CATEGORIES = [
 
 const PRIORITIES = ["Critical", "High", "Medium", "Low"];
 
-/**
- * Intelligent Fallback Rule Engine for Classification & Priority
- * Ensures zero failure and 100% graceful degradation if LLM APIs are unreachable.
- */
+// priority generator function
+
 function localRuleClassifier(subject, description) {
   const text = `${subject} ${description}`.toLowerCase();
 
@@ -145,10 +143,8 @@ function localRuleClassifier(subject, description) {
   };
 }
 
-/**
- * Intelligent Fallback Rule Engine for Response Drafting
- * Follows exact BookLeaf tone rules and knowledge base policies.
- */
+//mail generator function
+
 function localRuleDraftGenerator({ authorName, bookTitle, category, subject, description, bookContext }) {
   const text = `${subject} ${description}`.toLowerCase();
   const salutation = authorName ? `Dear ${authorName.split(" ")[0]},` : "Dear Author,";
@@ -269,12 +265,11 @@ Warm regards,
 Author Care Team, BookLeaf Publishing`;
 }
 
-/**
- * Single-call AI Classification and Priority Scoring
- * Meets requirement: "do classification and priority in a single call"
- */
+//priority generator using ai with all fallback to multiple apis 
+
+
 async function classifyAndPrioritizeTicket({ subject, description, bookTitle, authorName }) {
-  const hasKey = process.env.GROQ_API_KEY || process.env.GEMINI_API_KEY || process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY;
+  const hasKey = process.env.GROQ_API_KEY || process.env.GEMINI_API_KEY ;
 
   // If no external key is configured, immediately use the robust local heuristic engine
   if (!hasKey) {
@@ -400,99 +395,6 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
     }
   }
 
-  // 3. Anthropic Claude API Call
-  if (process.env.ANTHROPIC_API_KEY) {
-    try {
-      const model = process.env.ANTHROPIC_MODEL || "claude-3-haiku-20240307";
-      console.log(`[AI Service] 🚀 Calling Anthropic API (${model}) for ticket triage...`);
-      const startTime = Date.now();
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": process.env.ANTHROPIC_API_KEY,
-          "anthropic-version": "2023-06-01"
-        },
-        body: JSON.stringify({
-          model,
-          max_tokens: 512,
-          system: "You are an accurate, deterministic JSON-only classification assistant. Respond with strictly valid JSON only.",
-          messages: [{ role: "user", content: prompt }]
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Anthropic HTTP ${response.status}: ${await response.text()}`);
-      }
-
-      const data = await response.json();
-      const rawText = data.content[0].text.replace(/```json/g, "").replace(/```/g, "").trim();
-      const parsed = JSON.parse(rawText);
-
-      const validCategory = CATEGORIES.includes(parsed.category) ? parsed.category : "General Inquiry";
-      const validPriority = PRIORITIES.includes(parsed.priority) ? parsed.priority : "Medium";
-
-      console.log(`[AI Service] ✅ Anthropic responded in ${Date.now() - startTime}ms: Category="${validCategory}", Priority="${validPriority}"`);
-
-      return {
-        suggestedCategory: validCategory,
-        suggestedPriority: validPriority,
-        confidence: typeof parsed.confidence === "number" ? parsed.confidence : 0.95,
-        reasoning: parsed.reasoning || `Classified via ${model}`,
-        model
-      };
-    } catch (err) {
-      console.warn("[AI Service - Anthropic] ⚠️ Classification fallback triggered:", err.message);
-    }
-  }
-
-  // 4. OpenAI API Call
-  if (process.env.OPENAI_API_KEY) {
-    try {
-      const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
-      console.log(`[AI Service] 🚀 Calling OpenAI API (${model}) for ticket triage...`);
-      const startTime = Date.now();
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
-        },
-        body: JSON.stringify({
-          model,
-          messages: [
-            { role: "system", content: "You are an accurate, deterministic JSON-only classification assistant." },
-            { role: "user", content: prompt }
-          ],
-          temperature: 0.1,
-          response_format: { type: "json_object" }
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`OpenAI HTTP ${response.status}: ${await response.text()}`);
-      }
-
-      const data = await response.json();
-      const parsed = JSON.parse(data.choices[0].message.content);
-
-      const validCategory = CATEGORIES.includes(parsed.category) ? parsed.category : "General Inquiry";
-      const validPriority = PRIORITIES.includes(parsed.priority) ? parsed.priority : "Medium";
-
-      console.log(`[AI Service] ✅ OpenAI responded in ${Date.now() - startTime}ms: Category="${validCategory}", Priority="${validPriority}"`);
-
-      return {
-        suggestedCategory: validCategory,
-        suggestedPriority: validPriority,
-        confidence: typeof parsed.confidence === "number" ? parsed.confidence : 0.95,
-        reasoning: parsed.reasoning || `Classified via ${model}`,
-        model
-      };
-    } catch (err) {
-      console.warn("[AI Service - OpenAI] ⚠️ Classification fallback triggered:", err.message);
-    }
-  }
-
   // 5. Graceful Degradation Fallback
   const fallback = localRuleClassifier(subject, description);
   return {
@@ -504,12 +406,11 @@ Respond ONLY with valid JSON, no markdown codeblocks, no commentary.`;
   };
 }
 
-/**
- * Generates an AI Draft response using targeted Knowledge Base context and strict Tone Rules.
- * Slices only the relevant KB topic to save tokens and costs.
- */
+// draft message for the response from ai 
+
+
 async function generateDraftResponse({ ticket, author, book }) {
-  const hasKey = process.env.GROQ_API_KEY || process.env.GEMINI_API_KEY || process.env.ANTHROPIC_API_KEY || process.env.OPENAI_API_KEY;
+  const hasKey = process.env.GROQ_API_KEY || process.env.GEMINI_API_KEY ;
   const category = ticket.category || "General Inquiry";
   const kbSection = getRelevantKnowledgeBase(category, `${ticket.subject} ${ticket.description}`);
 
@@ -626,85 +527,6 @@ Draft an official response letter to the author. Do not include subject lines or
       };
     } catch (err) {
       console.warn("[AI Service - Gemini] ⚠️ Draft generation fallback triggered:", err.message);
-    }
-  }
-
-  // 1. Anthropic Claude API Call
-  if (process.env.ANTHROPIC_API_KEY) {
-    try {
-      const model = process.env.ANTHROPIC_MODEL || "claude-3-haiku-20240307";
-      console.log(`[AI Service] 🚀 Calling Anthropic API (${model}) to generate response draft...`);
-      const startTime = Date.now();
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": process.env.ANTHROPIC_API_KEY,
-          "anthropic-version": "2023-06-01"
-        },
-        body: JSON.stringify({
-          model,
-          max_tokens: 1024,
-          system: systemInstruction,
-          messages: [
-            { role: "user", content: `Subject: ${ticket.subject}\n\nDescription: ${ticket.description}` }
-          ]
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Anthropic HTTP ${response.status}: ${await response.text()}`);
-      }
-
-      const data = await response.json();
-      console.log(`[AI Service] ✅ Anthropic generated draft in ${Date.now() - startTime}ms`);
-      return {
-        content: data.content[0].text.trim(),
-        relevantKbTopic: category,
-        model,
-        generatedAt: new Date()
-      };
-    } catch (err) {
-      console.warn("[AI Service - Anthropic] ⚠️ Draft generation fallback triggered:", err.message);
-    }
-  }
-
-  // 2. OpenAI API Call
-  if (process.env.OPENAI_API_KEY) {
-    try {
-      const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
-      console.log(`[AI Service] 🚀 Calling OpenAI API (${model}) to generate response draft...`);
-      const startTime = Date.now();
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
-        },
-        body: JSON.stringify({
-          model,
-          messages: [
-            { role: "system", content: systemInstruction },
-            { role: "user", content: `Subject: ${ticket.subject}\n\nDescription: ${ticket.description}` }
-          ],
-          temperature: 0.3
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`OpenAI HTTP ${response.status}: ${await response.text()}`);
-      }
-
-      const data = await response.json();
-      console.log(`[AI Service] ✅ OpenAI generated draft in ${Date.now() - startTime}ms`);
-      return {
-        content: data.choices[0].message.content.trim(),
-        relevantKbTopic: category,
-        model,
-        generatedAt: new Date()
-      };
-    } catch (err) {
-      console.warn("[AI Service - OpenAI] ⚠️ Draft generation fallback triggered:", err.message);
     }
   }
 

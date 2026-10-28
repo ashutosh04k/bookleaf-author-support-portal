@@ -4,7 +4,7 @@ import { useAuth } from "./AuthContext";
 
 const SocketContext = createContext();
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:5002";
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || (import.meta.env.PROD ? "/" : "http://localhost:5002");
 
 export function SocketProvider({ children }) {
   const { user } = useAuth();
