@@ -181,7 +181,7 @@ The database seeds from the official `bookleaf_sample_data.json` containing **12
 ### 1. Clone & Install Dependencies
 ```bash
 # Clone the repository
-git clone <repo-url>
+git clone <https://github.com/ashutosh04k/bookleaf-author-support-portal>
 cd bookleaf_task
 
 # Install server dependencies
