@@ -15,6 +15,7 @@ import { TicketDetailPage } from "./pages/author/TicketDetailPage";
 
 import { QueuePage } from "./pages/admin/QueuePage";
 import { AdminTicketDetailPage } from "./pages/admin/AdminTicketDetailPage";
+import { ServerWarmupAlert } from "./components/ServerWarmupAlert";
 
 // Protected Layout Component
 function ProtectedLayout({ children, requiredRole }) {
@@ -62,6 +63,7 @@ export default function App() {
       <AuthProvider>
         <SocketProvider>
           <BrowserRouter>
+            <ServerWarmupAlert />
             <Routes>
               {/* Public Route */}
               <Route path="/login" element={<Login />} />
